@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#115740" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0B2E22" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Apertures, a travel companion for Rhett. Three letters and a journal anchored to Jefferson's eight objects of attention.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Apertures">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="assets/icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400;1,6..96,500&family=Inter:wght@400;500;600;700&family=Lexend:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <title>Apertures</title>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <main id="main" class="app" tabindex="-1">
+    <!-- Home view -->
+    <section id="view-home" class="view view-home" data-view="home" aria-labelledby="home-title">
+      <div class="home-topo" aria-hidden="true"></div>
+      <header class="home-head">
+        <p class="home-eyebrow">A travel companion</p>
+        <h1 id="home-title" class="home-title">Apertures</h1>
+        <p class="home-sub" id="home-sub">For Rhett</p>
+        <p class="home-meta" id="home-meta" hidden></p>
+      </header>
+
+      <nav class="home-tiles" aria-label="Sections">
+        <a class="tile tile-feature" href="#/card">
+          <span class="tile-eyebrow">Read this first</span>
+          <span class="tile-title">The Card</span>
+          <span class="tile-sub">A note from Wil</span>
+          <svg class="tile-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="tile" href="#/letter-2026">
+          <span class="tile-eyebrow">Modernized</span>
+          <span class="tile-title">Hints, 2026</span>
+        </a>
+        <a class="tile" href="#/letter-1788">
+          <span class="tile-eyebrow">Original, 1788</span>
+          <span class="tile-title">Jefferson's Hints</span>
+        </a>
+        <a class="tile" href="#/plan">
+          <span class="tile-eyebrow">The route</span>
+          <span class="tile-title">Plan</span>
+        </a>
+        <a class="tile" href="#/journal">
+          <span class="tile-eyebrow">Eight objects</span>
+          <span class="tile-title">Journal</span>
+        </a>
+      </nav>
+
+      <footer class="home-foot">
+        <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle dark mode" aria-pressed="false">
+          <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.5 4.5l2 2M17.5 17.5l2 2M4.5 19.5l2-2M17.5 6.5l2-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="settings-btn" class="icon-btn" type="button" aria-label="Settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M19 12a7 7 0 0 0-.1-1.2l2.1-1.6-2-3.4-2.4 1a7 7 0 0 0-2.1-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2.1 1.2l-2.4-1-2 3.4 2.1 1.6A7 7 0 0 0 5 12a7 7 0 0 0 .1 1.2L3 14.8l2 3.4 2.4-1a7 7 0 0 0 2.1 1.2L10 21h4l.5-2.6a7 7 0 0 0 2.1-1.2l2.4 1 2-3.4-2.1-1.6c.06-.4.1-.8.1-1.2z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+        </button>
+      </footer>
+    </section>
+
+    <!-- Reader view (letters mount here) -->
+    <section id="view-reader" class="view view-reader" data-view="reader" hidden aria-labelledby="reader-mount">
+      <header class="topbar">
+        <a class="topbar-back" href="#/" aria-label="Back to Apertures">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Apertures</span>
+        </a>
+        <span class="topbar-title" id="reader-topbar-title"></span>
+        <span class="topbar-spacer"></span>
+      </header>
+      <div id="reader-mount" class="reader"></div>
+    </section>
+
+    <!-- Plan view -->
+    <section id="view-plan" class="view view-plan" data-view="plan" hidden aria-labelledby="plan-title">
+      <header class="topbar">
+        <a class="topbar-back" href="#/" aria-label="Back to Apertures">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Apertures</span>
+        </a>
+        <span class="topbar-title">Plan</span>
+        <span class="topbar-spacer"></span>
+      </header>
+
+      <div class="plan-body">
+        <h1 id="plan-title" class="plan-title">The route</h1>
+
+        <section class="plan-card" aria-labelledby="plan-dates-title">
+          <h2 id="plan-dates-title" class="plan-card-title">Trip dates</h2>
+          <div class="plan-row">
+            <label class="field">
+              <span class="field-label">Departure</span>
+              <input type="date" id="plan-start" inputmode="numeric">
+            </label>
+            <label class="field">
+              <span class="field-label">Return</span>
+              <input type="date" id="plan-end" inputmode="numeric">
+            </label>
+          </div>
+          <p class="plan-counter" id="plan-counter"></p>
+        </section>
+
+        <section class="plan-card" aria-labelledby="plan-cities-title">
+          <div class="plan-card-head">
+            <h2 id="plan-cities-title" class="plan-card-title">Cities</h2>
+            <button class="btn-tonal" type="button" id="add-city-btn">
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="icon"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              Add city
+            </button>
+          </div>
+          <ul class="city-list" id="city-list" aria-live="polite"></ul>
+          <p class="empty-state" id="city-empty">No cities yet. Add Amsterdam first, then keep going.</p>
+        </section>
+      </div>
+    </section>
+
+    <!-- Journal view -->
+    <section id="view-journal" class="view view-journal" data-view="journal" hidden aria-labelledby="journal-title">
+      <header class="topbar">
+        <a class="topbar-back" href="#/" aria-label="Back to Apertures">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Apertures</span>
+        </a>
+        <span class="topbar-title">Journal</span>
+        <span class="topbar-spacer"></span>
+      </header>
+
+      <div class="journal-body">
+        <h1 id="journal-title" class="journal-title">Eight objects of attention</h1>
+        <p class="journal-sub">From Jefferson's curriculum, modernized.</p>
+
+        <nav class="object-grid" aria-label="Objects of attention">
+          <a class="object-tile" href="#/journal/agriculture" data-object="agriculture">
+            <span class="object-num">1</span>
+            <span class="object-tile-name">Agriculture</span>
+            <span class="object-tile-count" data-key="agriculture">No entries</span>
+          </a>
+          <a class="object-tile" href="#/journal/mechanical-arts" data-object="mechanical-arts">
+            <span class="object-num">2</span>
+            <span class="object-tile-name">Mechanical arts</span>
+            <span class="object-tile-count" data-key="mechanical-arts">No entries</span>
+          </a>
+          <a class="object-tile" href="#/journal/lighter-arts" data-object="lighter-arts">
+            <span class="object-num">3</span>
+            <span class="object-tile-name">Lighter arts</span>
+            <span class="object-tile-count" data-key="lighter-arts">No entries</span>
+          </a>
+          <a class="object-tile" href="#/journal/gardens" data-object="gardens">
+            <span class="object-num">4</span>
+            <span class="object-tile-name">Gardens</span>
+            <span class="object-tile-count" data-key="gardens">No entries</span>
+          </a>
+          <a class="object-tile" href="#/journal/architecture" data-object="architecture">
+            <span class="object-num">5</span>
+            <span class="object-tile-name">Architecture</span>
+            <span class="object-tile-count" data-key="architecture">No entries</span>
+          </a>
+          <a class="object-tile" href="#/journal/painting" data-object="painting">
+            <span class="object-num">6</span>
+            <span class="object-tile-name">Painting, statuary</span>
+            <span class="object-tile-count" data-key="painting">No entries</span>
+          </a>
+          <a class="object-tile" href="#/journal/politics" data-object="politics">
+            <span class="object-num">7</span>
+            <span class="object-tile-name">Politics</span>
+            <span class="object-tile-count" data-key="politics">No entries</span>
+          </a>
+          <a class="object-tile" href="#/journal/courts" data-object="courts">
+            <span class="object-num">8</span>
+            <span class="object-tile-name">Courts</span>
+            <span class="object-tile-count" data-key="courts">No entries</span>
+          </a>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Journal object view -->
+    <section id="view-object" class="view view-object" data-view="object" hidden aria-labelledby="object-title">
+      <header class="topbar">
+        <a class="topbar-back" href="#/journal" aria-label="Back to journal">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Journal</span>
+        </a>
+        <span class="topbar-title" id="object-topbar-title"></span>
+        <span class="topbar-spacer"></span>
+      </header>
+
+      <div class="object-body">
+        <p class="object-eyebrow" id="object-eyebrow"></p>
+        <h1 id="object-title" class="object-title"></h1>
+
+        <details class="object-excerpt" id="object-excerpt">
+          <summary>What Jefferson said</summary>
+          <div id="object-excerpt-body"></div>
+        </details>
+
+        <h2 class="object-entries-title">Entries</h2>
+        <ul class="entry-list" id="entry-list" aria-live="polite"></ul>
+        <p class="empty-state" id="entry-empty"></p>
+      </div>
+
+      <button class="fab" id="add-entry-btn" type="button" aria-label="Add entry">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </section>
+
+    <!-- Entry view (read one entry) -->
+    <section id="view-entry" class="view view-entry" data-view="entry" hidden aria-labelledby="entry-view-title">
+      <header class="topbar">
+        <a class="topbar-back" href="#" id="entry-back" aria-label="Back">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="entry-back-label">Back</span>
+        </a>
+        <span class="topbar-title">Entry</span>
+        <button class="icon-btn" id="entry-menu-btn" type="button" aria-label="Entry options" aria-haspopup="menu">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg>
+        </button>
+      </header>
+
+      <div class="entry-body" id="entry-body"></div>
+    </section>
+  </main>
+
+  <!-- Entry composer sheet -->
+  <div class="sheet" id="composer-sheet" role="dialog" aria-labelledby="composer-title" aria-modal="true" hidden>
+    <div class="sheet-scrim" data-close="composer"></div>
+    <div class="sheet-panel" role="document">
+      <header class="sheet-head">
+        <button class="btn-text" type="button" data-close="composer">Cancel</button>
+        <h2 id="composer-title" class="sheet-title">New entry</h2>
+        <button class="btn-text btn-primary" type="button" id="composer-save">Save</button>
+      </header>
+
+      <form class="sheet-body" id="composer-form" novalidate>
+        <label class="field">
+          <span class="field-label">Title <span class="required" aria-hidden="true">*</span></span>
+          <input type="text" id="f-title" required autocomplete="off" maxlength="120">
+          <span class="field-error" id="f-title-error" aria-live="polite"></span>
+        </label>
+
+        <div class="plan-row">
+          <label class="field">
+            <span class="field-label">Date</span>
+            <input type="date" id="f-date" inputmode="numeric">
+          </label>
+          <label class="field">
+            <span class="field-label">Location</span>
+            <input type="text" id="f-location" placeholder="Naples, Spanish Quarters" autocomplete="off" maxlength="120">
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field-label">Notes</span>
+          <textarea id="f-notes" rows="6" maxlength="4000"></textarea>
+        </label>
+
+        <fieldset class="field photo-field">
+          <legend class="field-label">Photos</legend>
+          <div class="photo-grid" id="f-photo-grid" role="list"></div>
+          <div class="photo-actions">
+            <label class="btn-tonal">
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="icon"><path d="M4 8h3l2-2h6l2 2h3v11H4z M12 11a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              Take photo
+              <input type="file" id="f-photo-camera" accept="image/*" capture="environment" hidden multiple>
+            </label>
+            <label class="btn-tonal">
+              <svg viewBox="0 0 24 24" aria-hidden="true" class="icon"><path d="M3 5h14v12H3z M21 9v10H7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              Choose from library
+              <input type="file" id="f-photo-library" accept="image/*" hidden multiple>
+            </label>
+          </div>
+          <p class="photo-hint" id="f-photo-hint">Add as many as you like. Photos save to this device.</p>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+
+  <!-- Entry options sheet -->
+  <div class="sheet sheet-bottom" id="options-sheet" role="dialog" aria-labelledby="options-title" aria-modal="true" hidden>
+    <div class="sheet-scrim" data-close="options"></div>
+    <div class="sheet-panel sheet-panel-bottom" role="document">
+      <h2 id="options-title" class="visually-hidden">Entry options</h2>
+      <button class="sheet-item" type="button" id="options-edit">Edit entry</button>
+      <button class="sheet-item sheet-item-danger" type="button" id="options-delete">Delete entry</button>
+      <button class="sheet-item sheet-item-cancel" type="button" data-close="options">Cancel</button>
+    </div>
+  </div>
+
+  <!-- City editor sheet -->
+  <div class="sheet" id="city-sheet" role="dialog" aria-labelledby="city-sheet-title" aria-modal="true" hidden>
+    <div class="sheet-scrim" data-close="city"></div>
+    <div class="sheet-panel">
+      <header class="sheet-head">
+        <button class="btn-text" type="button" data-close="city">Cancel</button>
+        <h2 id="city-sheet-title" class="sheet-title">City</h2>
+        <button class="btn-text btn-primary" type="button" id="city-save">Save</button>
+      </header>
+      <form class="sheet-body" id="city-form" novalidate>
+        <label class="field">
+          <span class="field-label">City <span class="required" aria-hidden="true">*</span></span>
+          <input type="text" id="c-name" required autocomplete="off" maxlength="60">
+          <span class="field-error" id="c-name-error" aria-live="polite"></span>
+        </label>
+        <div class="plan-row">
+          <label class="field">
+            <span class="field-label">Arrive</span>
+            <input type="date" id="c-arrive">
+          </label>
+          <label class="field">
+            <span class="field-label">Depart</span>
+            <input type="date" id="c-depart">
+          </label>
+        </div>
+        <label class="field">
+          <span class="field-label">Notes</span>
+          <textarea id="c-notes" rows="4" maxlength="2000" placeholder="Things to capture, restaurants to try, people to meet"></textarea>
+        </label>
+        <fieldset class="field">
+          <legend class="field-label">Tag with objects</legend>
+          <div class="chip-row" id="c-tags" role="group"></div>
+        </fieldset>
+        <button class="btn-text btn-danger" type="button" id="c-delete" hidden>Delete city</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Settings sheet -->
+  <div class="sheet" id="settings-sheet" role="dialog" aria-labelledby="settings-sheet-title" aria-modal="true" hidden>
+    <div class="sheet-scrim" data-close="settings"></div>
+    <div class="sheet-panel">
+      <header class="sheet-head">
+        <span></span>
+        <h2 id="settings-sheet-title" class="sheet-title">Settings</h2>
+        <button class="btn-text" type="button" data-close="settings">Done</button>
+      </header>
+      <div class="sheet-body">
+        <label class="field">
+          <span class="field-label">Traveler</span>
+          <input type="text" id="s-name" autocomplete="off" maxlength="40">
+          <span class="field-hint">Shown on the home screen.</span>
+        </label>
+        <div class="settings-section">
+          <h3 class="settings-section-title">Reading style</h3>
+          <p class="settings-help">Comfortable mode uses Atkinson Hyperlegible, looser line-height, and a softer drop cap. Good for long reading sessions and easier on dyslexic readers.</p>
+          <div class="segmented" role="radiogroup" aria-label="Reading style">
+            <button type="button" class="seg-btn" data-reading="standard" aria-pressed="true">Standard</button>
+            <button type="button" class="seg-btn" data-reading="comfortable" aria-pressed="false">Comfortable</button>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h3 class="settings-section-title">Backup</h3>
+          <p class="settings-help">Your entries, photos, and plan live on this device. Export a file you can save anywhere.</p>
+          <div class="photo-actions">
+            <button class="btn-tonal" type="button" id="s-export">Export</button>
+            <label class="btn-tonal">
+              Import
+              <input type="file" id="s-import" accept="application/json" hidden>
+            </label>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h3 class="settings-section-title">Erase</h3>
+          <p class="settings-help">Deletes everything on this device. There is no undo.</p>
+          <button class="btn-text btn-danger" type="button" id="s-erase">Erase all data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+    <button class="lightbox-close" type="button" id="lightbox-close" aria-label="Close photo viewer">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <img id="lightbox-img" alt="">
+  </div>
+
+  <script type="module" src="db.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

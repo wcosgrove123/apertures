@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" width="1200" height="1600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <style>
+      .c-thin  { fill: none; stroke: #B9975B; stroke-width: 1; opacity: 0.55; }
+      .c-med   { fill: none; stroke: #B9975B; stroke-width: 1.3; opacity: 0.7; }
+      .c-thick { fill: none; stroke: #B9975B; stroke-width: 1.7; opacity: 0.8; }
+    </style>
+  </defs>
+
+  <!-- Long, sweeping contour lines that span the full width.
+       No tiling. Designed to be cropped by the host element. -->
+  <g>
+    <!-- Top band: gentle wash -->
+    <path class="c-thin"  d="M -30 60   C 200 30,  400 90,  600 60   S 1000 30, 1230 70" />
+    <path class="c-thin"  d="M -30 100  C 220 70,  420 130, 620 100  S 1010 70, 1230 110" />
+    <path class="c-med"   d="M -30 140  C 230 110, 440 175, 640 145  S 1020 115, 1230 155" />
+    <path class="c-thin"  d="M -30 180  C 240 155, 460 215, 660 185  S 1030 160, 1230 195" />
+    <path class="c-thin"  d="M -30 220  C 250 195, 480 255, 680 225  S 1040 200, 1230 235" />
+    <path class="c-med"   d="M -30 270  C 260 240, 500 305, 700 270  S 1060 250, 1230 280" />
+    <path class="c-thin"  d="M -30 320  C 280 290, 520 355, 720 320  S 1080 300, 1230 330" />
+
+    <!-- A primary ridge across the middle band -->
+    <path class="c-thick" d="M -30 410  C 240 370, 460 450, 660 415  S 1030 360, 1230 410" />
+    <path class="c-med"   d="M -30 445  C 250 410, 470 485, 670 450  S 1040 400, 1230 450" />
+    <path class="c-thin"  d="M -30 480  C 260 450, 480 520, 680 485  S 1050 435, 1230 490" />
+
+    <!-- Closed-contour 'peak' on the left -->
+    <path class="c-thin"  d="M 180 360 C 240 320, 360 320, 420 370 C 460 410, 420 450, 350 460 C 270 470, 180 430, 180 360 Z" />
+    <path class="c-med"   d="M 200 380 C 250 348, 350 348, 405 388 C 440 420, 405 450, 345 458 C 280 466, 200 432, 200 380 Z" />
+    <path class="c-thick" d="M 230 400 C 270 380, 340 380, 380 405 C 405 425, 380 445, 335 450 C 285 455, 230 432, 230 400 Z" />
+    <path class="c-med"   d="M 260 415 C 290 405, 330 405, 360 418 C 378 430, 360 442, 332 444 C 295 446, 260 432, 260 415 Z" />
+
+    <!-- Lower-middle plain -->
+    <path class="c-thin"  d="M -30 580  C 260 555, 500 615, 700 580  S 1060 545, 1230 590" />
+    <path class="c-thin"  d="M -30 625  C 280 600, 520 655, 720 620  S 1080 590, 1230 635" />
+    <path class="c-med"   d="M -30 675  C 290 650, 540 705, 740 665  S 1100 635, 1230 685" />
+    <path class="c-thin"  d="M -30 725  C 310 700, 560 750, 760 720  S 1120 690, 1230 735" />
+    <path class="c-thin"  d="M -30 775  C 320 750, 580 795, 780 770  S 1140 740, 1230 785" />
+
+    <!-- Second closed-contour 'peak' lower-right -->
+    <path class="c-thin"  d="M 760 860 C 830 820, 950 820, 1010 870 C 1040 905, 1005 945, 940 950 C 855 956, 760 925, 760 860 Z" />
+    <path class="c-med"   d="M 790 880 C 850 855, 940 855, 990 890 C 1015 915, 985 940, 935 945 C 870 950, 790 925, 790 880 Z" />
+    <path class="c-thick" d="M 820 900 C 865 885, 925 885, 965 905 C 980 920, 960 935, 925 938 C 880 941, 820 925, 820 900 Z" />
+
+    <!-- Lower band winding down -->
+    <path class="c-thin"  d="M -30 920  C 320 895, 600 945, 800 920  S 1160 890, 1230 935" />
+    <path class="c-med"   d="M -30 980  C 340 955, 620 1005, 820 975  S 1180 950, 1230 990" />
+    <path class="c-thin"  d="M -30 1040 C 360 1010, 640 1065, 840 1030 S 1200 1010, 1230 1050" />
+    <path class="c-thin"  d="M -30 1100 C 380 1075, 660 1125, 860 1090 S 1220 1070, 1230 1110" />
+    <path class="c-med"   d="M -30 1170 C 400 1145, 680 1195, 880 1160 S 1230 1140, 1230 1180" />
+
+    <!-- Bottom whisper -->
+    <path class="c-thin"  d="M -30 1260 C 420 1235, 700 1285, 900 1250 S 1230 1235, 1230 1275" />
+    <path class="c-thin"  d="M -30 1340 C 440 1315, 720 1365, 920 1330 S 1230 1320, 1230 1355" />
+    <path class="c-thin"  d="M -30 1430 C 460 1410, 740 1450, 940 1420 S 1230 1410, 1230 1445" />
+    <path class="c-thin"  d="M -30 1520 C 480 1505, 760 1540, 960 1515 S 1230 1505, 1230 1535" />
+  </g>
+</svg>
