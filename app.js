@@ -148,6 +148,8 @@ async function loadSettings() {
   state.travelerName = (await db.kvGet('travelerName')) || 'Rhett';
   state.tripStart = (await db.kvGet('tripStart')) || '';
   state.tripEnd = (await db.kvGet('tripEnd')) || '';
+  state.customLabel = (await db.kvGet('customLabel')) || '';
+  state.customDate = (await db.kvGet('customDate')) || '';
   renderHomeMeta();
 }
 
@@ -165,6 +167,18 @@ function renderHomeMeta() {
 }
 
 function tripStatusText() {
+  // Custom countdown wins when set.
+  if (state.customDate) {
+    const target = parseISO(state.customDate);
+    const today = new Date(); today.setHours(0,0,0,0);
+    const days = Math.round((target - today) / 86400000);
+    const label = (state.customLabel || '').trim();
+    if (days === 0) return label ? `${label} today` : 'Today';
+    if (days === 1) return label ? `${label} tomorrow` : 'Tomorrow';
+    if (days > 0) return label ? `${days} days until ${label}` : `${days} days to go`;
+    const past = Math.abs(days);
+    return label ? `${past} days since ${label}` : `${past} days ago`;
+  }
   if (!state.tripStart) return '';
   const start = parseISO(state.tripStart);
   const end = state.tripEnd ? parseISO(state.tripEnd) : null;
@@ -244,7 +258,9 @@ async function renderHome() {
   restoreScroll();
 }
 
-const BACKUP_NUDGE_THRESHOLD = 5;
+const BACKUP_ENTRY_THRESHOLD = 3;
+const BACKUP_DAY_THRESHOLD = 3;
+const DAY_MS = 86400000;
 
 async function renderBackupNudge() {
   const banner = $('#backup-nudge');
@@ -252,14 +268,51 @@ async function renderBackupNudge() {
   const entries = await db.getAllEntries();
   const lastExport = await db.kvGet('lastExport');
   const sinceLast = entries.length - (lastExport?.entryCount || 0);
-  if (sinceLast >= BACKUP_NUDGE_THRESHOLD) {
-    const word = sinceLast === 1 ? 'entry' : 'entries';
-    banner.querySelector('.nudge-text').textContent =
-      `${sinceLast} new ${word} since your last backup`;
+
+  let daysSince = null;
+  if (lastExport?.ts) {
+    daysSince = Math.floor((Date.now() - new Date(lastExport.ts).getTime()) / DAY_MS);
+  }
+
+  // No entries at all and no prior backup → nothing to nudge about.
+  if (entries.length === 0) { banner.hidden = true; return; }
+
+  // Never backed up and at least one entry exists → nudge.
+  // Otherwise: entries since last >= threshold OR days since last >= threshold.
+  const neverBackedUp = !lastExport;
+  const overEntryThreshold = sinceLast >= BACKUP_ENTRY_THRESHOLD;
+  const overDayThreshold = daysSince !== null && daysSince >= BACKUP_DAY_THRESHOLD && sinceLast > 0;
+
+  if (neverBackedUp || overEntryThreshold || overDayThreshold) {
+    let text;
+    if (neverBackedUp) {
+      const word = entries.length === 1 ? 'entry' : 'entries';
+      text = `${entries.length} ${word}, no backup yet`;
+    } else if (overEntryThreshold) {
+      const word = sinceLast === 1 ? 'entry' : 'entries';
+      text = `${sinceLast} new ${word} since last backup`;
+    } else {
+      text = `${daysSince} days since last backup`;
+    }
+    banner.querySelector('.nudge-text').textContent = text;
     banner.hidden = false;
   } else {
     banner.hidden = true;
   }
+}
+
+function formatRelativeTime(iso) {
+  if (!iso) return 'Never';
+  const ms = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(ms / 60000);
+  if (mins < 1) return 'Just now';
+  if (mins < 60) return `${mins} min ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+  const days = Math.floor(hours / 24);
+  if (days < 30) return `${days} day${days === 1 ? '' : 's'} ago`;
+  const months = Math.floor(days / 30);
+  return `${months} month${months === 1 ? '' : 's'} ago`;
 }
 
 // ===========================================================================
@@ -295,9 +348,35 @@ async function renderPlan() {
   showView('view-plan');
   $('#plan-start').value = state.tripStart || '';
   $('#plan-end').value = state.tripEnd || '';
+  $('#plan-custom-label').value = state.customLabel || '';
+  $('#plan-custom-date').value = state.customDate || '';
+  $('#plan-custom-clear').hidden = !(state.customLabel || state.customDate);
   $('#plan-counter').textContent = tripStatusText();
   await renderCities();
   restoreScroll();
+}
+
+async function saveCustomCountdown() {
+  state.customLabel = $('#plan-custom-label').value.trim();
+  state.customDate = $('#plan-custom-date').value;
+  await db.kvSet('customLabel', state.customLabel);
+  await db.kvSet('customDate', state.customDate);
+  $('#plan-counter').textContent = tripStatusText();
+  $('#plan-custom-clear').hidden = !(state.customLabel || state.customDate);
+  renderHomeMeta();
+}
+
+async function clearCustomCountdown() {
+  state.customLabel = '';
+  state.customDate = '';
+  await db.kvSet('customLabel', '');
+  await db.kvSet('customDate', '');
+  $('#plan-custom-label').value = '';
+  $('#plan-custom-date').value = '';
+  $('#plan-custom-clear').hidden = true;
+  $('#plan-counter').textContent = tripStatusText();
+  renderHomeMeta();
+  toast('Custom countdown cleared');
 }
 
 async function renderCities() {
@@ -890,8 +969,17 @@ function closeLightbox() {
 // ===========================================================================
 // Settings sheet
 // ===========================================================================
-function openSettings() {
+async function openSettings() {
   $('#s-name').value = state.travelerName || 'Rhett';
+  const lastExport = await db.kvGet('lastExport');
+  const lastEl = $('#s-last-backup');
+  if (lastEl) {
+    if (lastExport?.ts) {
+      lastEl.textContent = `Last backup: ${formatRelativeTime(lastExport.ts)} (${lastExport.entryCount || 0} entries)`;
+    } else {
+      lastEl.textContent = 'Last backup: Never';
+    }
+  }
   openSheet('settings-sheet');
 }
 
@@ -907,8 +995,8 @@ async function saveTravelerNameLive() {
 async function exportData() {
   const payload = await db.dumpAll();
   const json = JSON.stringify(payload, null, 2);
-  const date = todayISO();
-  const filename = `apertures-${date}.json`;
+  // Single rolling filename so each export overwrites the same file in iCloud Drive.
+  const filename = `apertures-backup.json`;
   const blob = new Blob([json], { type: 'application/json' });
 
   // Use Web Share API on iOS so the user can pick "Save to Files" / AirDrop.
@@ -988,6 +1076,9 @@ function bind() {
   // Plan
   $('#plan-start').addEventListener('change', savePlanDates);
   $('#plan-end').addEventListener('change', savePlanDates);
+  $('#plan-custom-label').addEventListener('input', debounce(saveCustomCountdown, 400));
+  $('#plan-custom-date').addEventListener('change', saveCustomCountdown);
+  $('#plan-custom-clear').addEventListener('click', clearCustomCountdown);
   $('#add-city-btn').addEventListener('click', () => openCityEditor('new'));
 
   // City editor

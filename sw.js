@@ -1,7 +1,7 @@
 // Apertures service worker.
 // Caches the app shell so the site works fully offline once visited.
 
-const VERSION = 'apertures-v2';
+const VERSION = 'apertures-v3';
 const APP_SHELL = [
   './',
   './index.html',

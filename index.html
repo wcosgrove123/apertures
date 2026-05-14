@@ -121,6 +121,20 @@
           <p class="plan-counter" id="plan-counter"></p>
         </section>
 
+        <section class="plan-card" aria-labelledby="plan-custom-title">
+          <h2 id="plan-custom-title" class="plan-card-title">Custom countdown</h2>
+          <p class="settings-help" style="margin-top:0">Optional. If set, this replaces the trip-dates counter on the home screen. Use it for a specific milestone: a flight, a friend's arrival, a birthday.</p>
+          <label class="field">
+            <span class="field-label">Label</span>
+            <input type="text" id="plan-custom-label" placeholder="Train to Florence" autocomplete="off" maxlength="40">
+          </label>
+          <label class="field">
+            <span class="field-label">Date</span>
+            <input type="date" id="plan-custom-date" inputmode="numeric">
+          </label>
+          <button type="button" class="btn-text btn-danger" id="plan-custom-clear" hidden>Clear custom countdown</button>
+        </section>
+
         <section class="plan-card" aria-labelledby="plan-cities-title">
           <div class="plan-card-head">
             <h2 id="plan-cities-title" class="plan-card-title">Cities</h2>
@@ -370,11 +384,12 @@
         </div>
         <div class="settings-section">
           <h3 class="settings-section-title">Backup</h3>
-          <p class="settings-help">Your entries, photos, and plan live on this device. Export a file you can save anywhere.</p>
+          <p class="settings-help">Your entries, photos, and plan live on this device. Export saves a single file (<code>apertures-backup.json</code>) that overwrites itself each time. Tip: save it to iCloud Drive on the first export, and every future export will auto-sync.</p>
+          <p class="settings-meta" id="s-last-backup">Last backup: Never</p>
           <div class="photo-actions">
-            <button class="btn-tonal" type="button" id="s-export">Export</button>
+            <button class="btn-tonal" type="button" id="s-export">Back up now</button>
             <label class="btn-tonal">
-              Import
+              Restore
               <input type="file" id="s-import" accept="application/json" hidden>
             </label>
           </div>

@@ -1399,6 +1399,21 @@ input[type="date"] {
   margin: 0 0 var(--s-3);
   line-height: 1.55;
 }
+.settings-help code {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 12.5px;
+  background: var(--bg-tint);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--fg);
+}
+.settings-meta {
+  font-size: 13px;
+  color: var(--gold-text);
+  font-weight: 600;
+  margin: 0 0 var(--s-3);
+  letter-spacing: 0.02em;
+}
 
 .segmented {
   display: flex;
