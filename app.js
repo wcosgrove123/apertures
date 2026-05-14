@@ -239,8 +239,27 @@ function restoreScroll() {
 // ===========================================================================
 async function renderHome() {
   renderHomeMeta();
+  await renderBackupNudge();
   showView('view-home');
   restoreScroll();
+}
+
+const BACKUP_NUDGE_THRESHOLD = 5;
+
+async function renderBackupNudge() {
+  const banner = $('#backup-nudge');
+  if (!banner) return;
+  const entries = await db.getAllEntries();
+  const lastExport = await db.kvGet('lastExport');
+  const sinceLast = entries.length - (lastExport?.entryCount || 0);
+  if (sinceLast >= BACKUP_NUDGE_THRESHOLD) {
+    const word = sinceLast === 1 ? 'entry' : 'entries';
+    banner.querySelector('.nudge-text').textContent =
+      `${sinceLast} new ${word} since your last backup`;
+    banner.hidden = false;
+  } else {
+    banner.hidden = true;
+  }
 }
 
 // ===========================================================================
@@ -887,17 +906,44 @@ async function saveTravelerNameLive() {
 
 async function exportData() {
   const payload = await db.dumpAll();
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const json = JSON.stringify(payload, null, 2);
+  const date = todayISO();
+  const filename = `apertures-${date}.json`;
+  const blob = new Blob([json], { type: 'application/json' });
+
+  // Use Web Share API on iOS so the user can pick "Save to Files" / AirDrop.
+  if (navigator.canShare && typeof File !== 'undefined') {
+    try {
+      const file = new File([blob], filename, { type: 'application/json' });
+      if (navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: 'Apertures backup' });
+        await markExported(payload);
+        toast('Backup shared');
+        return;
+      }
+    } catch (e) {
+      // User cancelled the share sheet or the API misbehaved. Fall through.
+      if (e && e.name === 'AbortError') return;
+    }
+  }
+
+  // Fallback: classic download anchor.
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  const date = todayISO();
-  a.download = `apertures-${date}.json`;
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
+  await markExported(payload);
   toast('Backup downloaded');
+}
+
+async function markExported(payload) {
+  const entryCount = (payload.entries || []).length;
+  await db.kvSet('lastExport', { ts: new Date().toISOString(), entryCount });
+  await renderBackupNudge();
 }
 
 async function importData(file) {
@@ -1009,6 +1055,9 @@ function bind() {
   $$('.seg-btn').forEach(btn => {
     btn.addEventListener('click', () => setReading(btn.dataset.reading));
   });
+
+  // Backup nudge: tap to export
+  $('#backup-nudge')?.addEventListener('click', exportData);
 }
 
 // ===========================================================================

@@ -298,6 +298,54 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   transform: translateY(-3px);
 }
 
+/* Backup nudge -------------------------------------------------------------- */
+.backup-nudge {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+  padding: var(--s-4) var(--s-5);
+  margin: 0 0 var(--s-5);
+  border-radius: var(--r-md);
+  background: var(--bg-elev);
+  border: 1px solid var(--gold);
+  text-align: left;
+  color: var(--fg);
+  touch-action: manipulation;
+  transition: background-color var(--d-fast) var(--ease);
+}
+.backup-nudge:active { background: var(--bg-tint); }
+.backup-nudge .nudge-icon {
+  width: 22px; height: 22px;
+  color: var(--gold-text);
+  flex: 0 0 auto;
+}
+.backup-nudge .nudge-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.backup-nudge .nudge-title {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fg);
+}
+.backup-nudge .nudge-text {
+  font-size: 13px;
+  color: var(--fg-muted);
+}
+.backup-nudge .nudge-chev {
+  width: 18px; height: 18px;
+  color: var(--fg-faint);
+}
+[data-theme="dark"] .backup-nudge {
+  border-color: var(--gold-soft);
+}
+
 /* Tiles ---------------------------------------------------------------------- */
 .home-tiles {
   position: relative;
